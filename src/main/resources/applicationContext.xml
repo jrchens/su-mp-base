@@ -2,14 +2,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:task="http://www.springframework.org/schema/task"
-       xsi:schemaLocation="
-        http://www.springframework.org/schema/beans
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd
-        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
     <context:component-scan base-package="cn.com.simpleuse.base.service.impl"/>
@@ -27,8 +27,14 @@
     </bean>
 
     <!--<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">-->
-        <!--<property name="jndiName" value="java:comp/env/jdbc/susoft"/>-->
+    <!--<property name="jndiName" value="java:comp/env/jdbc/susoft"/>-->
     <!--</bean>-->
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
 
     <!--<cache:annotation-driven />-->
     <!--<bean id="cacheManager" class="org.springframework.cache.guava.GuavaCacheManager">-->

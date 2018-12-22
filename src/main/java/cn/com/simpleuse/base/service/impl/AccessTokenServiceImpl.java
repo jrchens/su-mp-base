@@ -75,8 +75,7 @@ public class AccessTokenServiceImpl implements AccessTokenService {
         this.token = token;
     }
 
-//    @Scheduled(fixedDelay = 5400000)
-    @Scheduled(fixedDelay = 30000)
+    @Scheduled(fixedDelay = 5400000)
     @Transactional
     public void deleteAndGetAccessToken() {
         try {
