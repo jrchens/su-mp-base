@@ -101,7 +101,7 @@ public class AccessTokenServiceImpl implements AccessTokenService {
                         jdbcTemplate.update("INSERT INTO mp_access_token (appid,errcode,errmsg,is_deleted,crtime) VALUES (?,?,?,?,?)", getAppId(), map.get("errcode"), map.get("errmsg"), false, DateTime.now().toDate());
                     } else {
                         double step = 0.75d;
-                        int seconds = new BigDecimal(map.get("expires_in")).divide(new BigDecimal(step)).intValue();
+                        int seconds = new BigDecimal(map.get("expires_in")).multiply(new BigDecimal(step)).intValue();
                         Date expiresIn = DateTime.now().plusSeconds(seconds).toDate();
                         jdbcTemplate.update("INSERT INTO mp_access_token (appid,access_token,expires_time,is_deleted,crtime) VALUES (?,?,?,?,?)", getAppId(), accessToken, expiresIn, false, DateTime.now().toDate());
                     }
@@ -113,7 +113,7 @@ public class AccessTokenServiceImpl implements AccessTokenService {
             }
             logger.info("run deleteAndGetAccessToken task success {}", DateTime.now().toString("yyyyMMddHHmmssSSS"));
         } catch (Exception e) {
-            logger.error("", e);
+            logger.error("run deleteAndGetAccessToken task error", e);
             throw new RuntimeException(e);
         }
     }
